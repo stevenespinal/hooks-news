@@ -1,6 +1,8 @@
 import React, {useState} from "react";
+import {Link} from "react-router-dom";
 import useFormValidation from "./useFormValidation";
 import validateLogin from "./validateLogin";
+import firebase from "../../firebase";
 
 const INITIAL_STATE = {
   name: '',
@@ -8,9 +10,21 @@ const INITIAL_STATE = {
   password: ''
 }
 
-const Login = () => {
-  const {handleChange, handleSubmit, values, handleBlur, isSubmitting, errors} = useFormValidation(INITIAL_STATE, validateLogin);
+const Login = ({history}) => {
   const [login, setLogin] = useState(true);
+  const [firebaseError, setfirebaseError] = useState(null);
+
+  const authenticateUser = async () => {
+    try {
+      login ? await firebase.login(email, password) : await firebase.register(name, email, password);
+      history.push("/");
+    } catch (error) {
+      console.error("Authentication error.", error);
+      setfirebaseError(error.message);
+    }
+  }
+
+  const {handleChange, handleSubmit, values, handleBlur, isSubmitting, errors} = useFormValidation(INITIAL_STATE, validateLogin, authenticateUser);
   const {name, email, password} = values;
 
   return (
@@ -45,12 +59,15 @@ const Login = () => {
           onBlur={handleBlur}
           value={password}
           type="password"
-          placeholder="Choose a secure password"
+          placeholder={login ? 'Enter your password' : "Choose a secure password"}
           onChange={handleChange}
         />
         {errors.password && <p className="error-text">{errors.password}</p>}
+        {firebaseError && <p className="error-text">{firebaseError}</p>}
         <div className="flex mt3">
-          <button type="submit" className="button pointer mr2">Submit</button>
+          <button type="submit" className="button pointer mr2" disabled={isSubmitting}
+                  style={{backgroundColor: isSubmitting ? 'grey' : 'orange'}}>Submit
+          </button>
           <button
             type="button"
             className="button pointer"
@@ -59,6 +76,9 @@ const Login = () => {
           </button>
         </div>
       </form>
+      <div className="forgot-password">
+        <Link to="/forgot">Forgot Password?</Link>
+      </div>
     </div>
   )
 }
