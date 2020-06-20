@@ -170,3 +170,7 @@ textarea {
   margin-bottom: 0.2em;
   max-width: 500px;
 }
+
+a {
+  text-decoration: none;
+}

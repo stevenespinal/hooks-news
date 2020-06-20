@@ -12,7 +12,7 @@ const CreateLink = ({history}) => {
   const {firebase, currentUser} = useContext(FirebaseContext)
   const {handleSubmit, handleChange, values, errors} = useFormValidation(INITIAL_STATE, validateCreateLink, handleCreateLink);
 
-  function handleCreateLink() {
+  async function handleCreateLink() {
     if (!currentUser) {
       history.push("/login");
     } else {
@@ -28,7 +28,7 @@ const CreateLink = ({history}) => {
         comments: [],
         created: Date.now()
       }
-      firebase.db.collection("links").add(newLink);
+      await firebase.db.collection("links").add(newLink);
       history.push("/");
     }
   }

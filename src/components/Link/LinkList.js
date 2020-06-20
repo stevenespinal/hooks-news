@@ -8,12 +8,12 @@ function LinkList(props) {
   const [links, setLinks] = useState([]);
 
   useEffect(() => {
-    getLinks()
+    const unsubscribe = firebase.db.collection('links').onSnapshot(handleSnapshot);
+    return () => {
+      unsubscribe()
+    };
   }, []);
 
-  function getLinks() {
-    firebase.db.collection('links').onSnapshot(handleSnapshot);
-  }
 
   function handleSnapshot(snapshot) {
     const links = snapshot.docs.map(doc => {
