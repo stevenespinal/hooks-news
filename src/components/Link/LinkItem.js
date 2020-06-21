@@ -18,7 +18,8 @@ function LinkItem({link, index, showCount, history}) {
           const previousVotes = doc.data().votes;
           const vote = {votedBy: currentUser.uid, name: currentUser.displayName};
           const updatedVotes = [...previousVotes, vote];
-          await votesRef.update({votes: updatedVotes});
+          const voteCount = updatedVotes.length;
+          await votesRef.update({votes: updatedVotes, voteCount});
         }
       });
     }
@@ -44,10 +45,10 @@ function LinkItem({link, index, showCount, history}) {
       </div>
       <div className="ml1">
         <div>
-          {link.description} <span className="link">{getDomain(link.url)}</span>
+          <a className="black" href={link.url} target="_blank" rel="noopener noreferrer">{link.description} </a><span className="link">({getDomain(link.url)})</span>
         </div>
         <div className="f6 lh-copy gray">
-          {link.votes.length} Votes By {link.postedBy.name} {distanceInWordsToNow(link.created)} | <Link
+          {link.voteCount} Votes By {link.postedBy.name} {distanceInWordsToNow(link.created)} ago | <Link
           to={`/link/${link.id}`}>{link.comments.length > 0 ? `${link.comments.length} comments` : "Discuss"}</Link>
           {postedByAuthUser && <> | <span className="delete-button" onClick={handleDeleteLink}>Delete</span></>}
         </div>

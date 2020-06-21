@@ -113,6 +113,7 @@ textarea {
   cursor: pointer;
 }
 
+
 .app-container {
   width: 85%;
   margin-right: auto;
@@ -141,6 +142,10 @@ textarea {
   font-size: 11px;
   color: #828282;
   margin-left: 0.25rem;
+}
+
+.vote-button:hover {
+  cursor: pointer;
 }
 
 .forgot-password {
