@@ -16,7 +16,7 @@ function LinkItem({link, index, showCount, history}) {
       votesRef.get().then(async doc => {
         if (doc.exists) {
           const previousVotes = doc.data().votes;
-          const vote = {votedBy: currentUser.uid, name: currentUser.displayName};
+          const vote = {votedBy: {id: currentUser.uid, name: currentUser.displayName}};
           const updatedVotes = [...previousVotes, vote];
           const voteCount = updatedVotes.length;
           await votesRef.update({votes: updatedVotes, voteCount});

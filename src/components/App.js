@@ -8,8 +8,8 @@ import LinkList from "./Link/LinkList";
 import LinkDetail from "./Link/LinkDetail";
 import Header from "./Header";
 import useAuth from "./Auth/useAuth";
-import FirebaseContext from "../firebase/context";
-import firebase from "../firebase";
+// import FirebaseContext from "../firebase/context";
+import firebase, {FirebaseContext} from "../firebase";
 
 function App() {
   const currentUser = useAuth();

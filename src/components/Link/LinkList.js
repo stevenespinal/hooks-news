@@ -40,7 +40,8 @@ function LinkList({location, match, history}) {
         setCursor(lastLink);
         setLoading(false);
       });
-      return () => {};
+      return () => {
+      };
     }
   }
 
